@@ -1,0 +1,15 @@
+.profile__image {
+  box-sizing: border-box;
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: none;
+}
+
+@media screen and (max-width: 680px) {
+  .profile__image {
+    margin-bottom: 26px;
+    margin-right: 0;
+  }
+}

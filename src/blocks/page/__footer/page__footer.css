@@ -1,0 +1,17 @@
+.page__footer {
+  box-sizing: border-box;
+  width: 100%;
+  padding-bottom: 60px;
+}
+
+@media screen and (max-width: 984px) {
+  .page__footer {
+    padding-bottom: 60px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .page__footer {
+    padding:0 19px 36px;
+  }
+}

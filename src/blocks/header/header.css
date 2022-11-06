@@ -1,0 +1,6 @@
+.header {
+  display: flex;
+  flex-direction: start;
+  align-items: center;
+  border-bottom: 1px solid rgb(33%, 33%, 33%, .7);
+}
