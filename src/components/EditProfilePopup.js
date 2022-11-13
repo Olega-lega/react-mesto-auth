@@ -5,6 +5,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
   const currentUser = useContext(CurrentUserContext);
   const [values, setValues] = useState({});
+  
   const resetForm = useCallback((newValues = {}) => {
     setValues(newValues);
   }, [setValues]);

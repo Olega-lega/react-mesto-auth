@@ -1,0 +1,22 @@
+.login__input {
+  display: flex;
+  height: 27px;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.21;
+}
+
+.login__input:required {
+  box-shadow: none;
+}
+
+.login__input:invalid {
+  color: #c4c4c4;
+}
+
+@media screen and (max-width: 768px) {
+  .login__input {
+    margin-bottom: 25px;
+  }
+}
