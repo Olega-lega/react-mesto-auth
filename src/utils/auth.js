@@ -8,34 +8,35 @@ export const responseHandler = (res) => {
   }
 };
 
-export const register = (email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
+export const register = async (password, email) => {
+  const res = await fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
-  }).then((res) => responseHandler(res));
+    body: JSON.stringify({ password, email }),
+  });
+  return responseHandler(res);
 };
 
-export const authorize = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
+export const authenticate = async (password, email) => {
+  const res = await fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
-  }).then((res) => responseHandler(res));
+    body: JSON.stringify({ password, email }),
+  });
+  return responseHandler(res);
 };
 
-export const logout = () => {
-  return fetch(`${BASE_URL}/signout`, {
-    method: "POST",
+export const checkToken = async (token) => {
+  const res = await fetch(`${BASE_URL}/users/me`, {
+    method: "GET",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-  }).then((res) => responseHandler(res));
+  });
+  return responseHandler(res);
 };

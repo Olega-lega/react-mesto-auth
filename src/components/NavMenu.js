@@ -1,6 +1,6 @@
 import React from 'react';
 
-function NavMenu({ email, onSignOut}) {
+function NavMenu({email, onSignOut}) {
   return (
     <div className="navmenu">
       <ul className="navmenu__content">

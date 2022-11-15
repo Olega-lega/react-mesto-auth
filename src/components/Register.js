@@ -7,11 +7,9 @@ function Register({ handleRegister, onRender }) {
     password: "",
   });
 
-  const { email, password } = formValues;
-
   function handleSubmit(event) {
     event.preventDefault();
-    handleRegister(formValues.email, formValues.password);
+    handleRegister(formValues.password, formValues.email);
   }
 
   const handleInputChange = useCallback(
@@ -35,11 +33,7 @@ function Register({ handleRegister, onRender }) {
     <section className="login">
       <div className="login__container">
         <h2 className="login__title">Регистрация</h2>
-        <form
-          name="login"
-          className="login-login"
-          onSubmit={handleSubmit}
-        >
+        <form name="login" className="login-login" onSubmit={handleSubmit}>
           <fieldset className="login__fieldset">
             <label className="login__field">
               <input
@@ -50,12 +44,10 @@ function Register({ handleRegister, onRender }) {
                 placeholder="Email"
                 required
                 minLength="4"
-                value={email}
+                value={formValues.email}
                 onChange={handleInputChange}
               />
-              <span
-                className="login__error" >
-              </span>
+              <span className="login__error"></span>
             </label>
             <label className="login__field">
               <input
@@ -66,17 +58,13 @@ function Register({ handleRegister, onRender }) {
                 placeholder="Пароль"
                 minLength="4"
                 required
-                value={password}
+                value={formValues.password}
                 onChange={handleInputChange}
               />
-              <span
-                className="login__error">
-              </span>
+              <span className="login__error"></span>
             </label>
           </fieldset>
-          <button
-            type="submit"
-            className="login__btn login__btn_position_sign">
+          <button type="submit" className="login__btn login__btn_position_sign">
             {onRender ? "Аутентификация..." : "Зарегистрироваться"}
           </button>
         </form>

@@ -1,23 +1,28 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
+import {Redirect} from "react-router-dom";
 
-function Login({ handleLogin, onRender }) {
+function Login({ handleLogin, onRender, registrationSuccess, loggedIn }) {
   const [formValues, setFormValues] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
-  const { email, password } = formValues;
-  
   function handleSubmit(event) {
     event.preventDefault();
-    handleLogin(formValues.email, formValues.password);
-  };
+    handleLogin(formValues.password, formValues.email);
+  }
 
-  const handleInputChange = useCallback((event) => {
-      const {name, value} = event.target;
+  const handleInputChange = useCallback(
+    (event) => {
+      const { name, value } = event.target;
       setFormValues((state) => ({ ...state, [name]: value }));
-  }, [setFormValues]);
+    },
+    [setFormValues]
+  );
 
+  if (loggedIn || registrationSuccess) {
+    return <Redirect to="/"/>;
+  }
 
   return (
     <section className="login">
@@ -34,7 +39,7 @@ function Login({ handleLogin, onRender }) {
                 placeholder="Email"
                 minLength="4"
                 required
-                value={email}
+                value={formValues.email}
                 onChange={handleInputChange}
               />
               <span className="login__error"> </span>
@@ -48,21 +53,20 @@ function Login({ handleLogin, onRender }) {
                 placeholder="Пароль"
                 minLength="4"
                 required
-                value={password}
+                value={formValues.password}
                 onChange={handleInputChange}
               />
               <span className="login__error"></span>
             </label>
           </fieldset>
-          <button
-            type="submit"
-            className="login__btn login__btn_position_sign"
-          >{onRender ? 'Авторизация...' : 'Войти'}</button>
+          <button type="submit" className="login__btn login__btn_position_sign">
+            {onRender ? "Авторизация..." : "Войти"}
+          </button>
         </form>
         <p className="login__auth-text">&nbsp;</p>
       </div>
     </section>
-  )
+  );
 }
 
 export default Login;
