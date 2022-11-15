@@ -1,7 +1,7 @@
 export class Api {
-  constructor({baseUrl, token}) {
-    this._baseUrl = baseUrl;
-    this._token = token;
+  constructor(options) {
+    this._baseUrl = options.baseUrl;
+    this._headers = options.headers;
   }
 
   _responseHandler(res) {
@@ -14,30 +14,20 @@ export class Api {
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       method: "GET",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
     }).then(this._responseHandler);
   }
   getInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then(this._responseHandler)
+      headers: this._headers,
+    }).then(this._responseHandler);
   }
 
   addNewCard(name, link) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: name,
         link: link,
@@ -48,20 +38,14 @@ export class Api {
   deleteCard(_id) {
     return fetch(`${this._baseUrl}/cards/${_id}`, {
       method: "DELETE",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
     }).then(this._responseHandler);
   }
 
   setInfo(name, about) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: name,
         about: about,
@@ -72,10 +56,7 @@ export class Api {
   setAva(data) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         avatar: data,
       }),
@@ -84,19 +65,17 @@ export class Api {
 
   changeLikeCardStatus(cardId, setLike) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: setLike ? 'PUT' : 'DELETE',
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then(this._responseHandler);
-  };
-
+      method: setLike ? "PUT" : "DELETE",
+      headers: this._headers,
+    }).then(this._responseHandler);
+  }
 }
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-50',
-  token: '7f9ed849-91dd-461f-a1ba-4d8a8f634854'
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-50",
+  headers: {
+    authorization: "7f9ed849-91dd-461f-a1ba-4d8a8f634854",
+    "Content-Type": "application/json",
+  },
 });
 
 export default api;

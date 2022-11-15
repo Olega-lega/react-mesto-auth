@@ -8,7 +8,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
-import { Switch, Redirect, Route} from "react-router-dom";
+import { Switch, Redirect, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute.js";
 import * as auth from "../utils/auth.js";
 import NavMenu from "./NavMenu";
@@ -46,6 +46,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddCardPopupOpen(false);
     setIsImagePopupOpen(false);
+    setIsInfoTooltipPopupOpen(false);
   }
 
   function handleCardClick(selectedCard) {
@@ -86,6 +87,7 @@ function App() {
   }
 
   function handleUserUpdate(newUser) {
+    setIsProcessing(true);
     api
       .setInfo(newUser.name, newUser.about)
       .then((res) => {
@@ -96,10 +98,14 @@ function App() {
         console.log(
           `Невозможно сохранить новые данные пользователя. Ошибка ${err}`
         );
+      })
+      .finally(() => {
+        setIsProcessing(false);
       });
   }
 
   function handleAvatarUpdate(newAvatar) {
+    setIsProcessing(true);
     api
       .setAva(newAvatar.avatar)
       .then((res) => {
@@ -108,10 +114,14 @@ function App() {
       })
       .catch((err) => {
         console.error(`Невозможно сохранить новый аватар. Ошибка ${err}`);
+      })
+      .finally(() => {
+        setIsProcessing(false);
       });
   }
 
   function handleAddCardSubmit(newCard) {
+    setIsProcessing(true);
     api
       .addNewCard(newCard.name, newCard.link)
       .then((res) => {
@@ -120,6 +130,9 @@ function App() {
       })
       .catch((err) => {
         console.log(`Невозможно добавить новую карточку. Ошибка ${err}`);
+      })
+      .finally(() => {
+        setIsProcessing(false);
       });
   }
 
@@ -149,7 +162,7 @@ function App() {
       if (data.token) {
         setLoggedIn(true);
         localStorage.setItem("jwt", data.token);
-        cbTokenCheck(); // для получения email пользователя
+        cbTokenCheck();
       }
     } catch (err) {
       switch (err) {
@@ -195,30 +208,28 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (loggedIn) {
+      api
+        .getInfo()
+        .then((res) => {
+          setCurrentUser(res);
+        })
+        .catch((err) => console.log(`Возникла ошибка! ${err}`));
 
-  if (loggedIn) {
+      api
+        .getInitialCards()
+        .then((res) => {
+          const cardsData = res;
+          setCards(cardsData);
+        })
+        .catch((err) => {
+          console.log(`Возникла ошибка! ${err}`);
+        });
+    }
+  }, [loggedIn]);
 
-    api
-      .getInfo()
-      .then((res) => {
-        setCurrentUser(res);
-      })
-      .catch((err) => console.log(`Возникла ошибка! ${err}`));
-
-    api
-      .getInitialCards()
-      .then((res) => {
-        const cardsData = res;
-        setCards(cardsData);
-      })
-      .catch((err) => {
-        console.log(`Возникла ошибка! ${err}`);
-      });
-  }
-  }, [loggedIn])
-  
   return (
-  <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         {authState.loggedIn && (
           <NavMenu onSignOut={handleSignOut} email={authState.email} />
@@ -263,16 +274,19 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleAvatarUpdate}
+          isLoading={isProcessing}
         />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUserUpdate}
+          isLoading={isProcessing}
         />
         <AddPlacePopup
           isOpen={isAddCardPopupOpen}
           onClose={closeAllPopups}
           onAddCard={handleAddCardSubmit}
+          isLoading={isProcessing}
         />
         <ImagePopup
           card={selectedCard}
@@ -285,8 +299,8 @@ function App() {
           onRegister={setRegistrationSuccess}
           registration={registrationSuccess}
         />
-        </div>
-  </CurrentUserContext.Provider>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

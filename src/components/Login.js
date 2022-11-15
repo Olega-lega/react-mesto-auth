@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 function Login({ handleLogin, onRender, registrationSuccess, loggedIn }) {
   const [formValues, setFormValues] = useState({
@@ -21,7 +21,7 @@ function Login({ handleLogin, onRender, registrationSuccess, loggedIn }) {
   );
 
   if (loggedIn || registrationSuccess) {
-    return <Redirect to="/"/>;
+    return <Redirect to="/" />;
   }
 
   return (

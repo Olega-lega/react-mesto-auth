@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-function NavMenu({email, onSignOut}) {
+function NavMenu({ email, onSignOut }) {
   return (
     <div className="navmenu">
       <ul className="navmenu__content">
@@ -11,12 +11,13 @@ function NavMenu({email, onSignOut}) {
           <button
             onClick={onSignOut}
             className="navmenu__element navmenu__element_btn"
-          >Выйти</button>
+          >
+            Выйти
+          </button>
         </li>
       </ul>
     </div>
   );
-
-};
+}
 
 export default NavMenu;

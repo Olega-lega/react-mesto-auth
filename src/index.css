@@ -62,6 +62,9 @@
 @import url('./blocks/popup/__container-avatar/popup__container-avatar.css');
 @import url('./blocks/popup/__form/_delete/popup__form_delete.css');
 @import url('./blocks/popup/__button-save/_delete/popup__button-save_delete.css');
+@import url('./blocks/popup/__container/_small/popup__container_small.css');
+@import url('./blocks/popup/__description/popup__description.css');
+@import url('./blocks/popup/__subinfo/popup__subinfo.css');
 
 @import url('./blocks/navmenu/navmenu.css');
 @import url('./blocks/navmenu/__content/navmenu__content.css');
